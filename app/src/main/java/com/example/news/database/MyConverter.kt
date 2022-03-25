@@ -10,23 +10,23 @@ import com.google.gson.reflect.TypeToken
 class MyConverter {
 
     @TypeConverter
-    fun fromArticlesToString(articlesList: List<CachedArticles>):String{
+    fun fromArticlesToString(articlesList: List<CachedArticles>): String {
         return Gson().toJson(articlesList)
     }
 
     @TypeConverter
-    fun fromStringToArticle(news:String):List<CachedArticles>{
-        val listType = object : TypeToken<List<CachedArticles>>(){}.type
+    fun fromStringToArticle(news: String): List<CachedArticles> {
+        val listType = object : TypeToken<List<CachedArticles>>() {}.type
         return Gson().fromJson(news, listType)
     }
 
     @TypeConverter
-    fun fromSourceToString(source: Source):String{
+    fun fromSourceToString(source: Source): String {
         return Gson().toJson(source)
     }
 
     @TypeConverter
-    fun fromStringToSource(source: String):Source{
+    fun fromStringToSource(source: String): Source {
         return Gson().fromJson(source, Source::class.java)
     }
 

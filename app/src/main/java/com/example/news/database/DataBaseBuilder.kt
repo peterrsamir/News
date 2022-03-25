@@ -2,12 +2,10 @@ package com.example.news.database
 
 import android.content.Context
 import androidx.room.*
-import androidx.sqlite.db.SupportSQLiteOpenHelper
 import com.example.news.model.CachedArticles
-import com.example.news.model.Favorite
-import com.example.news.model.News
 
-@Database(entities = [CachedArticles::class, Favorite::class], version = 1)
+
+@Database(entities = [CachedArticles::class], version = 1)
 @TypeConverters(MyConverter::class)
 abstract class DataBaseBuilder : RoomDatabase() {
 
@@ -27,18 +25,5 @@ abstract class DataBaseBuilder : RoomDatabase() {
             return dataBaseBuilder!!
         }
     }
-
-    override fun createOpenHelper(config: DatabaseConfiguration?): SupportSQLiteOpenHelper {
-        TODO("Not yet implemented")
-    }
-
-    override fun createInvalidationTracker(): InvalidationTracker {
-        TODO("Not yet implemented")
-    }
-
-    override fun clearAllTables() {
-        TODO("Not yet implemented")
-    }
-
-    abstract fun getDao(): Dao
+    abstract fun getDao(): NewsDao
 }

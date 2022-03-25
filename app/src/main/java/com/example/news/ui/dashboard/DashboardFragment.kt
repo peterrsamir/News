@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.news.database.LocalDatabase
@@ -18,8 +17,13 @@ class DashboardFragment : Fragment() {
 
     private var _binding: FragmentDashboardBinding? = null
 
-
+    // This property is only valid between onCreateView and
+    // onDestroyView.
     private val binding get() = _binding!!
+
+    lateinit var articles:CachedArticles
+    lateinit var localDatabase: LocalDatabase
+    var articlesList =  mutableListOf<CachedArticles>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,6 +36,11 @@ class DashboardFragment : Fragment() {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        articles= CachedArticles(
+            Source("", ""), "peter", "title", "sdsdf",
+            "da", "sd", "time", "ds")
+
+        articlesList.add(articles)
         return root
     }
 
@@ -42,6 +51,12 @@ class DashboardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        localDatabase = LocalDatabase.getInstance(requireContext())
+//        articlesList.add(articles)
+        binding.button.setOnClickListener(View.OnClickListener {
+            GlobalScope.launch {
+                localDatabase.insertNews(articlesList)
+            }
+        })
     }
 }

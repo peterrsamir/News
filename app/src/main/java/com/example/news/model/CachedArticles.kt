@@ -10,13 +10,14 @@ import com.google.gson.annotations.SerializedName
 @Entity(tableName = "Articles")
 data class CachedArticles(
 
-    @PrimaryKey(autoGenerate = true)@NonNull @ColumnInfo(name = "id") var id:Int = 1,
-    @Ignore @SerializedName("source") var source: Source? = Source(),
+    @SerializedName("source") var source: Source?,
     @SerializedName("author") var author: String? = null,
     @SerializedName("title") var title: String? = null,
     @SerializedName("description") var description: String? = null,
-    @SerializedName("url") var url: String? = null,
+    @PrimaryKey() @NonNull @SerializedName("url") var url: String ,
     @SerializedName("urlToImage") var urlToImage: String? = null,
     @SerializedName("publishedAt") var publishedAt: String? = null,
     @SerializedName("content") var content: String? = null
+
 )
+

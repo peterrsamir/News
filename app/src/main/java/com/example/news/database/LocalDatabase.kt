@@ -3,17 +3,15 @@ package com.example.news.database
 import android.content.Context
 import com.example.news.model.Articles
 import com.example.news.model.CachedArticles
-import com.example.news.model.Favorite
-import com.example.news.model.News
 import kotlinx.coroutines.flow.Flow
 
 class LocalDatabase(val context: Context) : LocalDatabaseInterface {
 
 
-    var dao: Dao? = null
+    var newsDao: NewsDao? = null
     init {
         val dataBaseBuilder: DataBaseBuilder = DataBaseBuilder.getInstance(context)
-        dao = dataBaseBuilder.getDao()
+        newsDao = dataBaseBuilder.getDao()
     }
 
     companion object{
@@ -27,31 +25,25 @@ class LocalDatabase(val context: Context) : LocalDatabaseInterface {
     }
 
     override suspend fun insertNews(cachedArticles: List<CachedArticles>) {
-        dao?.insertNews(cachedArticles)
+        newsDao?.insertNews(cachedArticles)
     }
 
 
     override suspend fun deleteAllDatabase() {
-        dao?.deleteAllDatabase()
+        newsDao?.deleteAllDatabase()
     }
 
-    override suspend fun getNewsByID(id: Int): Flow<Articles> {
-        return dao?.getNewsByID(id)!!
-    }
+//    override suspend fun getNewsByID(id: Int): Flow<Articles> {
+//        return newsDao?.getNewsByID(id)!!
+//    }
 
     override suspend fun getAllNews(): Flow<List<Articles>> {
-        return dao?.getAllNews()!!
+        return newsDao?.getAllNews()!!
     }
 
-    override suspend fun insertFavorite(favorite: Favorite) {
-        dao?.insertFavorite(favorite)
+    override suspend fun updateFavorite(cachedArticles: CachedArticles) {
+        newsDao?.updateFavorite(cachedArticles)
     }
 
-    override suspend fun getAllFavorite(): Flow<List<Favorite>> {
-        return  dao?.getAllFavorites()!!
-    }
 
-    override suspend fun deleteFavorite(id: Int) {
-        dao?.deleteFavorite(id)
-    }
 }

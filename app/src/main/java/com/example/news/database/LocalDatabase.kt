@@ -28,14 +28,9 @@ class LocalDatabase(val context: Context) : LocalDatabaseInterface {
         newsDao?.insertNews(cachedArticles)
     }
 
-
     override suspend fun deleteAllDatabase() {
         newsDao?.deleteAllDatabase()
     }
-
-//    override suspend fun getNewsByID(id: Int): Flow<Articles> {
-//        return newsDao?.getNewsByID(id)!!
-//    }
 
     override suspend fun getAllNews(): Flow<List<Articles>> {
         return newsDao?.getAllNews()!!
@@ -43,6 +38,22 @@ class LocalDatabase(val context: Context) : LocalDatabaseInterface {
 
     override suspend fun updateFavorite(cachedArticles: CachedArticles) {
         newsDao?.updateFavorite(cachedArticles)
+    }
+
+    override suspend fun deleteFavorite(cachedArticles: CachedArticles) {
+        newsDao?.deleteFavorite(cachedArticles)
+    }
+
+    override suspend fun getAllFavorites(): Flow<List<CachedArticles>> {
+        return newsDao?.getAllFavorites()!!
+    }
+
+    override suspend fun getFav(url: String): Flow<CachedArticles> {
+        return newsDao?.getFav(url)!!
+    }
+
+    override suspend fun searchByTitle(title: String): Flow<CachedArticles> {
+        return newsDao?.searchByTitle(title)!!
     }
 
 

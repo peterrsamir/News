@@ -1,15 +1,26 @@
+buildscript {
+    repositories {
+        google()
+    }
+    dependencies {
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.4.1")
+    }
+}
+
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
 }
 
+apply plugin: "androidx.navigation.safeargs"
+
 android {
     compileSdk 32
 
     defaultConfig {
         applicationId "com.example.news"
-        minSdk 25
+        minSdk 22
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -72,4 +83,10 @@ dependencies {
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+    implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2'
+
+    // circle image
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+
 }

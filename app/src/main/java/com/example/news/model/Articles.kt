@@ -3,6 +3,7 @@ package com.example.news.model
 import androidx.annotation.NonNull
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 
 data class Articles(

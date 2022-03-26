@@ -1,21 +1,21 @@
 package com.example.news.repository
 
-import com.example.news.model.News
+import com.example.news.network.NewsApi
+import com.example.news.network.NewsState
 
-class Repo:RepositoryInterface {
-    override suspend fun insertNews(news: News) {
-        TODO("Not yet implemented")
-    }
 
-    override suspend fun getAllNews() {
-        TODO("Not yet implemented")
-    }
+class Repo : RepoInterface {
 
-    override suspend fun getNewsByID(id: Int) {
-        TODO("Not yet implemented")
-    }
 
-    override suspend fun deleteAllDatabase() {
-        TODO("Not yet implemented")
+    override suspend fun getApiData(): NewsState {
+
+        var res = NewsApi.getInstance().getNews()
+        return if (res.isSuccessful) {
+            NewsState.success(res.body()!!)
+
+        } else {
+            NewsState.fail("failed to get data")
+        }
     }
 }
+

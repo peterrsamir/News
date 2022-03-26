@@ -9,7 +9,8 @@ import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "Articles")
 data class CachedArticles(
-
+    
+    @SerializedName("isFavorite") var isFavorite:Int = 0,
     @SerializedName("source") var source: Source?,
     @SerializedName("author") var author: String? = null,
     @SerializedName("title") var title: String? = null,

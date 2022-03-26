@@ -1,4 +1,4 @@
-package com.example.news.ui.home
+package com.example.news.ui.Favorite
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -10,49 +10,42 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.news.R
 import com.example.news.model.Articles
+import com.example.news.model.CachedArticles
 import de.hdodenhof.circleimageview.CircleImageView
 
-class HomeRVAdapter(
+class FavoriteAdapter(
     var context: Context,
-    var articles: List<Articles>,
-    var onItemclick: (Articles)-> Unit,var onFavoClick: (Articles)-> Unit
-) : RecyclerView.Adapter<HomeRVAdapter.Holder>() {
+    var articles: List<CachedArticles>,
+) : RecyclerView.Adapter<FavoriteAdapter.Holder>() {
 
     class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var tv: TextView = itemView.findViewById(R.id.custom_home_row_tv)
-        var img: ImageView = itemView.findViewById(R.id.custom_home_row_img)
-        var favoImg: ImageView = itemView.findViewById(R.id.custom_home_row_img_favo)
-
+        var tv: TextView = itemView.findViewById(R.id.txtVNewsFav)
+        var img: ImageView = itemView.findViewById(R.id.imgVNewsFav)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         var v: View =
-            LayoutInflater.from(parent.context).inflate(R.layout.custom_home_row, null, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.custom_fav_row, null, false)
         return Holder(v)
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.tv.setText(articles.get(position).title)
-        holder.favoImg.setOnClickListener {
-            onFavoClick(articles.get(position))
-//            onHomeRvClickListener.onFavoriteClick(it, articles.get(position))
-            holder.favoImg.setImageResource(R.drawable.favo_icon2)
-        }
         holder.itemView.setOnClickListener {
 //            onHomeRvClickListener.onItemClick(articles.get(position))
-            onItemclick(articles.get(position))
-
+//            onItemclick(articles.get(position))
         }
         Glide.with(context).load(articles.get(position).urlToImage).into(holder.img)
-        if( holder.img.drawable==null)
+        if (holder.img.drawable == null)
             holder.img.setImageResource(R.drawable.ic_news)
 
     }
+
     override fun getItemCount(): Int {
         return articles.size
     }
 
-    fun setList(articles: List<Articles>) {
+    fun setList(articles: List<CachedArticles>) {
         this.articles = articles
         notifyDataSetChanged()
     }

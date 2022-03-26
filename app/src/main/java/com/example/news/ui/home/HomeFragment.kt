@@ -12,10 +12,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.example.Articles
-import com.example.example.News
 import com.example.news.R
+import com.example.news.database.DataBaseBuilder
 import com.example.news.databinding.FragmentHomeBinding
+import com.example.news.model.Articles
+import com.example.news.network.NewsApi
 import com.example.news.network.NewsState
 import com.example.news.repository.Repo
 
@@ -35,7 +36,9 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         setHasOptionsMenu(true)
-        var repo= Repo()
+        var dao = DataBaseBuilder.getInstance(requireContext()).getDao()
+        var retro = NewsApi.getInstance()
+        var repo= Repo(retro, dao)
         var factory=HomeViewModelFactory(repo)
         val homeViewModel =
             ViewModelProvider(this,factory).get(HomeViewModel::class.java)
@@ -65,10 +68,6 @@ class HomeFragment : Fragment() {
             }
 
         })
-
-
-
-
         return root
     }
 

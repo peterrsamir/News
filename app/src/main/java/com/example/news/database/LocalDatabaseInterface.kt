@@ -13,5 +13,5 @@ interface LocalDatabaseInterface {
     suspend fun deleteFavorite(cachedArticles: CachedArticles)
     suspend fun getAllFavorites():Flow<List<CachedArticles>>
     suspend fun getFav(url:String):Flow<CachedArticles>
-    suspend fun searchByTitle(title:String):Flow<CachedArticles>
+//    suspend fun searchByTitle(title:String):Flow<CachedArticles>
 }

@@ -1,7 +1,6 @@
 package com.example.news.network
 
-import com.example.example.Articles
-import com.example.example.News
+import com.example.news.model.News
 
 sealed class NewsState{
     object isLoading:NewsState()

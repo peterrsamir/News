@@ -52,9 +52,9 @@ class LocalDatabase(val context: Context) : LocalDatabaseInterface {
         return newsDao?.getFav(url)!!
     }
 
-    override suspend fun searchByTitle(title: String): Flow<CachedArticles> {
-        return newsDao?.searchByTitle(title)!!
-    }
+//    override suspend fun searchByTitle(title: String): Flow<CachedArticles> {
+//        return newsDao?.searchByTitle(title)!!
+//    }
 
 
 }

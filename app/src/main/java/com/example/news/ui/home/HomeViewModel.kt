@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.example.News
 import com.example.news.network.NewsApi
+import com.example.news.network.NewsState
 import com.example.news.repository.Repo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,16 +19,16 @@ class HomeViewModel (var repo:Repo): ViewModel() {
 
 
 
-   private val _newsMutableData:MutableLiveData<News> = MutableLiveData()
-    val newsLiveData:LiveData<News> = _newsMutableData
+   private val _newsMutableData:MutableLiveData<NewsState> = MutableLiveData()
+    val newsLiveData:LiveData<NewsState> = _newsMutableData
 
 
     fun getData()
     {
+        _newsMutableData.value=NewsState.isLoading
         viewModelScope.launch() {
             var res=repo.getApiData()
-            if(res.isSuccessful)
-                _newsMutableData.value=res.body()
+                _newsMutableData.value=res
         }
     }
 

@@ -16,6 +16,7 @@ import com.example.example.Articles
 import com.example.example.News
 import com.example.news.R
 import com.example.news.databinding.FragmentHomeBinding
+import com.example.news.network.NewsState
 import com.example.news.repository.Repo
 
 class HomeFragment : Fragment() {
@@ -51,8 +52,18 @@ class HomeFragment : Fragment() {
         homeViewModel.getData()
 
         homeViewModel.newsLiveData.observe(requireActivity(), Observer {
-            adapter.setList(it.articles)
-            articles=it.articles
+            when(it){
+                is NewsState.isLoading->{
+                    binding.homeRv.visibility=View.GONE
+                }
+                is NewsState.success->{
+                    binding.homeProgress.visibility=View.GONE
+                    binding.homeRv.visibility=View.VISIBLE
+                    adapter.setList(it.news.articles)
+                }
+
+            }
+
         })
 
 

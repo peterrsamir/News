@@ -2,7 +2,7 @@ package com.example.news.ui.registration.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.news.Repository
+import com.example.news.repository.Repository
 
 class RegistrationViewModelFactory (private val repository: Repository): ViewModelProvider.Factory{
 

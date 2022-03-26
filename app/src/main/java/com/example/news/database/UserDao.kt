@@ -1,18 +1,18 @@
-package com.example.news.utils
+package com.example.news.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.news.User
+import com.example.news.model.User
 
 @Dao
 interface UserDao {
 
     @Query("SELECT * FROM users WHERE email = :email AND password = :password ")
-    fun login(email: String, password: String): LiveData<List<User>>
+    suspend fun login(email: String, password: String): User?
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun addUser(user: User)
+    suspend fun addUser(user: User)
 
     @Update
-    fun changePassword(user: User)
+    suspend fun changePassword(user: User): Int
 }

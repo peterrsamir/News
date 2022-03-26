@@ -1,20 +1,23 @@
 package com.example.news.repository
 
-import androidx.lifecycle.LiveData
+import com.example.news.model.Articles
+import com.example.news.model.CachedArticles
 import com.example.news.model.News
-import com.example.news.model.User
+import com.example.news.network.NewsState
+import kotlinx.coroutines.flow.Flow
+
 
 interface RepositoryInterface {
 
-    suspend fun insertNews(news: News)
-    suspend fun getAllNews()
-    suspend fun getNewsByID(id: Int)
+    suspend fun insertNews(cachedArticles: List<CachedArticles>)
     suspend fun deleteAllDatabase()
+    suspend fun getAllNews(): Flow<List<Articles>>
+    suspend fun updateFavorite(cachedArticles: CachedArticles)
+    suspend fun deleteFavorite(cachedArticles: CachedArticles)
+    suspend fun getAllFavorites(): Flow<List<CachedArticles>>
+    suspend fun getFav(url:String): Flow<CachedArticles>
+    suspend fun searchByTitle(title:String): Flow<List<CachedArticles>>
 
-    //user dao methods
-    /*fun login(email: String, password: String): LiveData<List<User>>
+    suspend fun getApiData(): NewsState
 
-    suspend fun addUser(user: User)
-
-    suspend fun changePassword(user: User)*/
 }

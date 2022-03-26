@@ -10,18 +10,27 @@ import kotlinx.coroutines.flow.Flow
 interface NewsDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertNews(list: List<CachedArticles>)
+    suspend fun insertNews(list: List<CachedArticles>)
 
     @Query("Delete From Articles")
-    fun deleteAllDatabase()
-
-   /* @Query("Select * From Articles Where id=:id")
-    fun getNewsByID(id: Int): Flow<Articles>*/
+    suspend fun deleteAllDatabase()
 
     @Query("Select * From Articles")
-    fun getAllNews(): Flow<List<Articles>>
+    suspend fun getAllNews(): Flow<List<Articles>>
+
+    @Query("Select * From Articles where isFavorite = 1")
+    suspend fun getAllFavorites():Flow<List<CachedArticles>>
+
+    @Query("select * From Articles where url=:url")
+    suspend fun getFav(url:String):Flow<CachedArticles>
+
+    @Delete
+    suspend fun deleteFavorite(cachedArticles: CachedArticles)
 
     @Update
-    fun updateFavorite(articles: CachedArticles)
+    suspend fun updateFavorite(articles: CachedArticles)
+
+    @Query("select * from Articles where title like :title")
+    suspend fun searchByTitle(title:String):Flow<CachedArticles>
 
 }

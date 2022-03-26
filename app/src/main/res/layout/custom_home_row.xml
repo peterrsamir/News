@@ -40,7 +40,7 @@
                     android:layout_height="@dimen/_25sdp"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/favo_icon2" />
+                    android:src="@drawable/favo_icon" />
         </RelativeLayout>
 
 

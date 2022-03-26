@@ -3,6 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/ITI/Android/News/v2/News/app/src/main/res/drawable/btn_shape.xml" value="0.1215" />
+        <entry key="..\:/ITI/Android/News/v2/News/app/src/main/res/drawable/favo_icon.xml" value="0.1215" />
+        <entry key="..\:/ITI/Android/News/v2/News/app/src/main/res/drawable/favo_icon2.xml" value="0.1215" />
+        <entry key="..\:/ITI/Android/News/v2/News/app/src/main/res/drawable/favo_selector.xml" value="0.1215" />
+        <entry key="..\:/ITI/Android/News/v2/News/app/src/main/res/layout/activity_main.xml" value="0.18802083333333333" />
+        <entry key="..\:/ITI/Android/News/v2/News/app/src/main/res/layout/custom_home_row.xml" value="0.18802083333333333" />
+        <entry key="..\:/ITI/Android/News/v2/News/app/src/main/res/layout/details_fragment.xml" value="0.18802083333333333" />
+        <entry key="..\:/ITI/Android/News/v2/News/app/src/main/res/layout/fragment_home.xml" value="0.18802083333333333" />
+        <entry key="..\:/ITI/Android/News/v2/News/app/src/main/res/menu/add_to_favorite.xml" value="0.18802083333333333" />
+        <entry key="..\:/ITI/Android/News/v2/News/app/src/main/res/menu/search_menu.xml" value="0.18802083333333333" />
         <entry key="..\:/androidStudio/News/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
         <entry key="..\:/androidStudio/News/app/src/main/res/layout/fragment_dashboard.xml" value="0.19166666666666668" />
       </map>

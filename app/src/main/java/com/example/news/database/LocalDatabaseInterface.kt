@@ -8,7 +8,10 @@ interface LocalDatabaseInterface {
 
     suspend fun insertNews(cachedArticles: List<CachedArticles>)
     suspend fun deleteAllDatabase()
-//    suspend fun getNewsByID(id: Int):Flow<Articles>
     suspend fun getAllNews():Flow<List<Articles>>
     suspend fun updateFavorite(cachedArticles: CachedArticles)
+    suspend fun deleteFavorite(cachedArticles: CachedArticles)
+    suspend fun getAllFavorites():Flow<List<CachedArticles>>
+    suspend fun getFav(url:String):Flow<CachedArticles>
+    suspend fun searchByTitle(title:String):Flow<CachedArticles>
 }

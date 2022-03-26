@@ -36,7 +36,7 @@ class DashboardFragment : Fragment() {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        articles= CachedArticles(
+        articles= CachedArticles(0,
             Source("", ""), "peter", "title", "sdsdf",
             "da", "sd", "time", "ds")
 

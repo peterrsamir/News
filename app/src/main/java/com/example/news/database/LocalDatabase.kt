@@ -32,7 +32,7 @@ class LocalDatabase(val context: Context) : LocalDatabaseInterface {
         newsDao?.deleteAllDatabase()
     }
 
-    override suspend fun getAllNews(): Flow<List<Articles>> {
+    override suspend fun getAllNews(): Flow<List<CachedArticles>> {
         return newsDao?.getAllNews()!!
     }
 
@@ -52,7 +52,7 @@ class LocalDatabase(val context: Context) : LocalDatabaseInterface {
         return newsDao?.getFav(url)!!
     }
 
-    override suspend fun searchByTitle(title: String): Flow<CachedArticles> {
+    override suspend fun searchByTitle(title: String): Flow<List<CachedArticles>> {
         return newsDao?.searchByTitle(title)!!
     }
 

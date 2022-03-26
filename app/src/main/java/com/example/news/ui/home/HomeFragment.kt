@@ -2,9 +2,6 @@ package com.example.news.ui.home
 
 import android.os.Bundle
 import android.view.*
-import android.widget.PopupMenu
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -12,22 +9,23 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.example.Articles
-import com.example.example.News
 import com.example.news.R
+import com.example.news.database.LocalDatabase
 import com.example.news.databinding.FragmentHomeBinding
+import com.example.news.model.CachedArticles
+import com.example.news.network.NewsApi
 import com.example.news.network.NewsState
 import com.example.news.repository.Repo
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
-    lateinit var articles:ArrayList<Articles>
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    lateinit var articles: List<CachedArticles>
+    lateinit var searchList: List<CachedArticles>
     private val binding get() = _binding!!
-    private lateinit var navController:NavController
+    private lateinit var navController: NavController
+    lateinit var homeViewModel: HomeViewModel
+    lateinit var adapter: HomeRVAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,38 +33,54 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         setHasOptionsMenu(true)
-        var repo= Repo()
-        var factory=HomeViewModelFactory(repo)
-        val homeViewModel =
-            ViewModelProvider(this,factory).get(HomeViewModel::class.java)
+        var repo =
+            Repo(NewsApi.getInstance(), LocalDatabase.getInstance(requireContext()).newsDao!!)
+        var factory = HomeViewModelFactory(repo)
+
+        homeViewModel = ViewModelProvider(this, factory).get(HomeViewModel::class.java)
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-         articles= ArrayList()
-        var adapter= HomeRVAdapter(requireContext(),articles,::onItemClick, ::onFavoriteClick)
+        articles = ArrayList()
+        searchList = ArrayList()
+
+        adapter = HomeRVAdapter(requireContext(), articles, ::onItemClick, ::onFavoriteClick)
         binding.homeRv.setHasFixedSize(true)
-        binding.homeRv.layoutManager=LinearLayoutManager(requireContext())
-        binding.homeRv.adapter=adapter
+        binding.homeRv.layoutManager = LinearLayoutManager(requireContext())
+        binding.homeRv.adapter = adapter
 
         homeViewModel.getData()
+        homeViewModel.startListening()
 
-        homeViewModel.newsLiveData.observe(requireActivity(), Observer {
-            when(it){
-                is NewsState.isLoading->{
-                    binding.homeRv.visibility=View.GONE
-                }
-                is NewsState.success->{
-                    binding.homeProgress.visibility=View.GONE
-                    binding.homeRv.visibility=View.VISIBLE
-                    adapter.setList(it.news.articles)
-                }
-
-            }
-
+        homeViewModel.allNewsLiveData.observe(requireActivity(), Observer {
+            adapter.setList(it)
         })
 
+        homeViewModel.newsLiveData.observe(requireActivity(), Observer {
+            when (it) {
+                is NewsState.isLoading -> {
+                    binding.homeRv.visibility = View.GONE
+                    binding.homeTvFail.visibility=View.GONE
+                }
+                is NewsState.success -> {
+                    binding.homeProgress.visibility = View.GONE
+                    binding.homeTvFail.visibility=View.GONE
+                    binding.homeRv.visibility = View.VISIBLE
+                    articles = it.news.articles
+                    homeViewModel.insertNews(it.news.articles)
+                }
+                is NewsState.fail->{
+                    binding.homeProgress.visibility = View.GONE
+                    binding.homeRv.visibility = View.GONE
+                    binding.homeTvFail.visibility=View.VISIBLE
+                }
+            }
+        })
 
+        homeViewModel.searchLiveData.observe(requireActivity(), Observer {
+            searchList = it
+        })
 
 
         return root
@@ -80,32 +94,46 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        navController=Navigation.findNavController(view)
+        navController = Navigation.findNavController(view)
     }
 
-     fun onFavoriteClick(articles: Articles) {
+    fun onFavoriteClick(articles: CachedArticles) {
+        if (articles.isFavorite == 0)
+            articles.isFavorite = 1
+        else
+            articles.isFavorite = 0
+
+        homeViewModel.insertFavorite(articles)
+        homeViewModel.allNewsLiveData.removeObservers(requireActivity())
+
     }
 
-     fun onItemClick(articles: Articles) {
-     var action=HomeFragmentDirections.actionNavigationHomeToDetailsFragment(articles.url)
+    fun onItemClick(articles: CachedArticles) {
+        var action = HomeFragmentDirections.actionNavigationHomeToDetailsFragment(articles.url)
         navController.navigate(action)
     }
 
 
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        requireActivity().menuInflater.inflate(R.menu.search_menu,menu)
-        var searchView: SearchView =menu.findItem(R.id.menu_search).actionView as SearchView
-        searchView.isSubmitButtonEnabled=true
-        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+        requireActivity().menuInflater.inflate(R.menu.search_menu, menu)
+        var searchView: SearchView = menu.findItem(R.id.menu_search).actionView as SearchView
+        searchView.isSubmitButtonEnabled = true
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 TODO("Not yet implemented")
             }
 
             override fun onQueryTextChange(p0: String?): Boolean {
-                Toast.makeText(requireActivity(), ""+p0, Toast.LENGTH_SHORT).show()
+                homeViewModel.search(p0!!)
+                adapter.setList(searchList)
+                if (p0.equals(""))
+                    adapter.setList(articles)
                 return true
             }
+        })
+        searchView.setOnCloseListener(SearchView.OnCloseListener {
+            adapter.setList(articles)
+            false
         })
         super.onCreateOptionsMenu(menu, inflater)
     }

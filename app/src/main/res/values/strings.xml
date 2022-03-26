@@ -3,5 +3,34 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- User data -->
+    <string name="userName">Name</string>
+    <string name="phone">Phone Number</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+
+    <!-- Error messages -->
+    <string name="emptyPasswordError">password is required</string>
+    <string name="emptyNameError">name is required</string>
+    <string name="emptyEmailError">email is required</string>
+    <string name="emptyPhoneError">phone is required</string>
+
+    <string name="shortPasswordError">password must contain at least 6 character</string>
+    <string name="invalidEmailError">provide valid Email</string>
+    <string name="invalidPhoneError">provide valid phone</string>
+
+    <!-- Login & registration strings -->
+    <string name="noAccount">You do not have an account yet?</string>
+    <string name="createAccount">create a new one</string>
+    <string name="login">Login</string>
+    <string name="registration">Sign up</string>
+    <string name="save">Save</string>
+    <string name="goToLogin">Already have an account ? </string>
+
     <string name="details_fragment_name">Details</string>
+
 </resources>

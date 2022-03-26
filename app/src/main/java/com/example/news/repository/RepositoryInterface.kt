@@ -6,6 +6,7 @@ import com.example.news.model.News
 import com.example.news.network.NewsState
 import kotlinx.coroutines.flow.Flow
 
+
 interface RepositoryInterface {
 
     suspend fun insertNews(cachedArticles: List<CachedArticles>)
@@ -18,4 +19,5 @@ interface RepositoryInterface {
     suspend fun searchByTitle(title:String): Flow<List<CachedArticles>>
 
     suspend fun getApiData(): NewsState
+
 }

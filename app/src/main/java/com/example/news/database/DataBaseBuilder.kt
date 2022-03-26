@@ -3,9 +3,10 @@ package com.example.news.database
 import android.content.Context
 import androidx.room.*
 import com.example.news.model.CachedArticles
+import com.example.news.model.User
 
 
-@Database(entities = [CachedArticles::class], version = 1)
+@Database(entities = [CachedArticles::class, User::class], version = 2)
 @TypeConverters(MyConverter::class)
 abstract class DataBaseBuilder : RoomDatabase() {
 
@@ -25,5 +26,6 @@ abstract class DataBaseBuilder : RoomDatabase() {
             return dataBaseBuilder!!
         }
     }
-    abstract fun getDao(): NewsDao
+    abstract fun getNewsDao(): NewsDao
+    abstract fun getUsersDao(): UserDao
 }

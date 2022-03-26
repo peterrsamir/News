@@ -11,7 +11,7 @@ class LocalDatabase(val context: Context) : LocalDatabaseInterface {
     var newsDao: NewsDao? = null
     init {
         val dataBaseBuilder: DataBaseBuilder = DataBaseBuilder.getInstance(context)
-        newsDao = dataBaseBuilder.getDao()
+        newsDao = dataBaseBuilder.getNewsDao()
     }
 
     companion object{
